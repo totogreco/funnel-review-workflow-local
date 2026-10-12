@@ -35,7 +35,7 @@ LIVE = ("live-sheet", "live-render", "live-upload-token")
 TITLES = {
     "system-python": "Python 3", "system-uv": "uv (Python installer)", "venv": "Python environment (.venv)",
     "chromium": "Chromium browser for captures", "env-file": ".env file",
-    "google-client": "Team Google sign-in client", "funnel-sheet": "Funnel sheet linked",
+    "google-client": "Your Google sign-in key (credentials.json)", "funnel-sheet": "Work sheet linked",
     "google-signin": "Signed in to Google", "upload-token": "Render upload token",
     "live-sheet": "Sheet can be read", "live-render": "Render site reachable",
     "live-upload-token": "Upload token accepted",
@@ -104,7 +104,7 @@ def check_steps(live: bool) -> list[dict]:
     add("env-file", (ROOT / ".env").is_file())
     secret_file = ROOT / (env.get("GOOGLE_CLIENT_SECRET_PATH") or "credentials.json")
     client_ok = bool(env.get("GOOGLE_CLIENT_ID") and env.get("GOOGLE_CLIENT_SECRET")) or secret_file.is_file()
-    add("google-client", client_ok, "" if client_ok else "GOOGLE_CLIENT_ID/SECRET or credentials.json missing")
+    add("google-client", client_ok, "" if client_ok else "credentials.json missing")
     add("funnel-sheet", bool(env.get("FUNNEL_SHEET_ID")), "" if env.get("FUNNEL_SHEET_ID") else "FUNNEL_SHEET_ID empty")
     signin_ok, signin_detail = False, "needs the Python environment first"
     if venv_ok:

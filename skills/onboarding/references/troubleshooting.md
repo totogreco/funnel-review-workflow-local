@@ -7,11 +7,13 @@ Explain the cause in plain words, then fix it. Re-run `python3 tools/onboarding_
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
-| "Access blocked: app has not completed verification" | Their Google email isn't a Test user on the team's app | Ask the owner to add it (Owner request, item 2) |
-| "unverified app" warning | Normal for the team's own app | **Advanced** → **Go to … (unsafe)** |
+| "Access blocked: app has not completed verification" | Their Google email isn't a Test user on their app | Add it in part 4 of `google-client` |
+| "unverified app" warning | Normal for their own app | **Advanced** → **Go to Funnel Review (unsafe)** |
+| "Google Sheets API has not been used in project" | Sheets API not enabled | Redo part 2 of `google-client` in the same project |
+| `credentials.json` missing after download | The file is named `client_secret_….json` in Downloads | Move it into this folder as `credentials.json` |
 | `google-signin` fails with "sign in again", or it worked last week | In Testing mode, Google sign-ins last 7 days | Rerun `.venv/bin/python tools/google_auth.py` |
-| `invalid_client` | Client ID or secret pasted wrong (extra space, cut off) | Paste both again from the owner's message |
-| `live-sheet` fails with 403 / "permission" | The sheet isn't shared with the account they signed in with | Ask the owner to share it, or sign in again with the right account (delete `token.json` first) |
+| `invalid_client` | Wrong or deleted key file | Download the JSON again (part 5 of `google-client`) and replace `credentials.json` |
+| `live-sheet` fails with 403 / "permission" | They signed in with a Google account that can't open the work sheet | Delete `token.json` and sign in again with the account they use for the sheet |
 | `live-sheet` fails with 404 / "not found" | Wrong `FUNNEL_SHEET_ID` | Paste the sheet link again |
 | "tab ... is empty" / range error | `FUNNEL_SHEET_TAB` isn't `FUNNEL-BUILDING` | Set it back to `FUNNEL-BUILDING` |
 

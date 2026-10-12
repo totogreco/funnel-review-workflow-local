@@ -88,8 +88,8 @@ def main() -> int:
     elif secret_file.is_file():
         flow = InstalledAppFlow.from_client_secrets_file(str(secret_file), SCOPES)
     else:
-        print("error: no Google OAuth client. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env "
-              "(from the owner), or put credentials.json in this folder.", file=sys.stderr)
+        print("error: no Google OAuth client. Create your own Desktop app client in Google Cloud and save "
+              "its JSON in this folder as credentials.json (see skills/onboarding).", file=sys.stderr)
         return 1
     creds = flow.run_local_server(port=0, prompt="consent", open_browser=True)
     token = resolve(env, "GOOGLE_TOKEN_PATH", "token.json")

@@ -10,17 +10,14 @@ Web pages change. If a button has a different name, ask what they see.
 
 # Owner request
 
-When the teammate does not have the three things from the owner yet, give them this
-text to send (filled in with their Google email), then continue with Phase 1:
+The only thing the teammate needs from the owner is the funnel feedback token. When they
+don't have it yet, give them this text to send, then continue with the other steps:
 
-> Hi! I'm setting up the manual funnel review. Could you:
-> 1. Share the funnel sheet (FUNNEL-BUILDING) with **<their Google email>** as Viewer, and send me the link.
-> 2. Add **<their Google email>** as a Test user on our Google sign-in app
->    (https://console.cloud.google.com/auth/audience → **Add users**), and send me the
->    `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` (or the credentials.json file).
-> 3. Send me the `FEEDBACK_UPLOAD_TOKEN` through the password manager.
+> Hi! I'm setting up the manual funnel review. Could you send me the funnel feedback
+> token (`FEEDBACK_UPLOAD_TOKEN`) through the password manager?
 
-The owner's side of this is in the README ("For the owner: adding a teammate").
+Teammates already have access to the work sheet, and they create their own Google
+sign-in key (step `google-client`); the owner never shares Google credentials.
 
 ---
 
@@ -65,25 +62,53 @@ uv pip install --python .venv/bin/python -r requirements.txt
 # Phase 3: Google Sheet (read-only)
 
 ## google-client
-Needs item 2 from the owner.
-**Teammate (when they have the two values):**
-> **Step N: Add the team's Google sign-in client**
-> I've opened your `.env` file in TextEdit.
-> 1. Paste the client ID right after `GOOGLE_CLIENT_ID=`
-> 2. Paste the client secret right after `GOOGLE_CLIENT_SECRET=`
-> 3. Save (**Cmd+S**) and close.
->
-> Reply **done**.
+The teammate creates their **own** Google Cloud project and sign-in key. Free, no billing
+needed. It's five small steps: send them one at a time as "part 1 of 5" etc. Tell them up
+front: "This is the longest part, about 10 minutes. After this it gets quick."
+Use the Google account they use for the work sheet.
 
-**You:** `open -e .env` before sending. If the owner sent a `credentials.json` instead,
-move it (or the newest `~/Downloads/client_secret_*.json`) into this folder as
-`credentials.json`.
+**Part 1: Create a Google Cloud project**
+1. Open https://console.cloud.google.com/projectcreate
+2. If asked, sign in and accept the terms.
+3. **Project name:** `Funnel Review`. Leave the rest as is.
+4. Click **Create** and wait about 30 seconds.
+
+**Part 2: Turn on Google Sheets access**
+1. Open https://console.cloud.google.com/apis/library/sheets.googleapis.com
+2. Check the project at the top is **Funnel Review** (switch it there if not).
+3. Click **Enable**.
+
+**Part 3: Set up the sign-in screen**
+1. Open https://console.cloud.google.com/auth/overview
+2. Click **Get started**.
+3. **App name:** `Funnel Review`. **User support email:** your email. Click **Next**.
+4. **Audience:** choose **External**. Click **Next**.
+5. **Contact information:** your email. Click **Next**.
+6. Tick the agreement box, click **Continue**, then **Create**.
+
+**Part 4: Allow your own account to sign in**
+1. Open https://console.cloud.google.com/auth/audience
+2. Under **Test users**, click **Add users**.
+3. Enter your own Google email (the one you use for the work sheet). Click **Save**.
+
+**Part 5: Create the key file**
+1. Open https://console.cloud.google.com/auth/clients
+2. Click **Create client**.
+3. **Application type:** **Desktop app**. **Name:** `Funnel Review`.
+4. Click **Create**.
+5. In the pop-up, click **Download JSON**. (If it closed: click the client name, then
+   the download icon next to the client secret.)
+
+**You (after part 5):** move the newest `~/Downloads/client_secret_*.json` to
+`credentials.json` in this folder. If none is there, ask where it saved. Leave
+`GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` in `.env` empty.
 **Verify:** checker shows `google-client` done.
 
 ## funnel-sheet
 **Teammate:**
-> **Step N: Link the funnel sheet**
-> Open the sheet the owner shared with you, copy the link from the address bar and paste it here.
+> **Step N: Link the work sheet**
+> Open the sheet we work in (the one with the **FUNNEL-BUILDING** tab), copy the link
+> from the address bar and paste it here.
 
 **You:** extract the ID (between `/d/` and `/edit`), set `FUNNEL_SHEET_ID=<id>`. Keep
 `FUNNEL_SHEET_TAB=FUNNEL-BUILDING`.
@@ -93,9 +118,9 @@ move it (or the newest `~/Downloads/client_secret_*.json`) into this folder as
 **Teammate:**
 > **Step N: Connect your Google account**
 > A Google sign-in page is opening in your browser.
-> 1. Choose the Google account the sheet is shared with.
-> 2. If you see **"Google hasn't verified this app"**: that's expected for our team's
->    own app. Click **Advanced**, then **Go to … (unsafe)**.
+> 1. Choose the Google account you use for the work sheet.
+> 2. If you see **"Google hasn't verified this app"**: that's expected, because it's
+>    your own app. Click **Advanced**, then **Go to Funnel Review (unsafe)**.
 > 3. Allow access to view your spreadsheets and click **Continue**.
 > 4. When the page says the flow is complete, close the tab.
 >
@@ -103,17 +128,20 @@ move it (or the newest `~/Downloads/client_secret_*.json`) into this folder as
 
 **Verify:** the command printed `saved token.json` and exited 0; checker shows
 `google-signin` done.
-If Google says **"Access blocked"**, the owner hasn't added them as a Test user yet.
+If Google says **"Access blocked"**, their email is missing from Test users (part 4).
 
-**Tell them:** while the team's Google app is in *Testing* mode, this sign-in expires
-after 7 days. Then they only repeat this one step ("sign me in to Google again").
+**Tell them:** while their Google app is in *Testing* mode, this sign-in expires after
+7 days, and they repeat only this step ("sign me in to Google again"). Optional fix: on
+https://console.cloud.google.com/auth/audience click **Publish app** → **Confirm**. The
+"unverified app" warning stays, but sign-ins stop expiring weekly. Then delete
+`token.json` and redo this step once.
 
 ---
 
 # Phase 4: Publishing to Render
 
 ## upload-token
-Needs item 3 from the owner. The funnel feedback token is always provided by the owner;
+The funnel feedback token is always provided by the owner;
 the teammate never creates it. If they don't have it yet, give them the Owner request.
 **Teammate:**
 > **Step N: Add the funnel feedback token**

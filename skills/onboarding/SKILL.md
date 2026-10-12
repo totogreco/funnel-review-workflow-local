@@ -1,6 +1,6 @@
 ---
 name: onboarding
-description: Guided, one-step-at-a-time setup for a teammate who wants to run the manual funnel review on their own Mac and publish to the team's Render site. Installs the tools, connects Google (read-only sheet access) and the shared Render upload token, checking each step before moving on. Use when someone says "onboard me", "set up", "get started", "first time", "new machine", or when tools/onboarding_check.py reports missing steps.
+description: Guided, one-step-at-a-time setup for a teammate who wants to run the manual funnel review on their own Mac and publish to the team's Render site. Installs the tools, has them create their own Google sign-in key (read-only sheet access) and adds the shared Render upload token, checking each step before moving on. Use when someone says "onboard me", "set up", "get started", "first time", "new machine", or when tools/onboarding_check.py reports missing steps.
 ---
 
 # Onboarding
@@ -20,25 +20,22 @@ section in [references/steps.md](references/steps.md), which holds the exact ins
   exactly where the owner's and the dashboard's reviews appear. It does not matter who
   onboards: every reviewer uses the same Render site and the same upload token.
 
-## What they need from the owner (ask at the start)
+## What they need
 
-The teammate cannot create these themselves. If anything is missing, write the exact
-request for them to send to the owner (see "Owner request" in `steps.md`) and continue
-with the steps that don't need it.
-
-1. **Sheet access**: the funnel spreadsheet (tab `FUNNEL-BUILDING`) shared with the
-   teammate's Google account (Viewer is enough), plus its link.
-2. **Google sign-in client**: the team's `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
-   (or a `credentials.json`), and the owner adding the teammate's Google email as a
-   **Test user** on that Google app.
-3. **Upload token**: the team's `FEEDBACK_UPLOAD_TOKEN`, sent through a password manager
-   or another private channel, never in a group chat or email thread.
+- **From the owner, only the funnel feedback token** (`FEEDBACK_UPLOAD_TOKEN`), sent
+  through a password manager or another private channel, never in a group chat or email
+  thread. If they don't have it yet, give them the "Owner request" text in `steps.md` and
+  continue with the steps that don't need it.
+- **The URL of the work sheet** they already use (the spreadsheet with the
+  `FUNNEL-BUILDING` tab). Teammates already have access; just ask them to paste the link.
+- **Their own Google sign-in key.** They create it themselves in step `google-client`
+  (free, about 10 minutes). Never ask for or use the owner's Google client ID or secret.
 
 ## How to run the conversation
 
 1. **Welcome (one message).** Explain in plain words: this folder reviews a competitor
    funnel against ours, writes a feedback page for the funnel builder and publishes it
-   to the team site. Then list the three things from the owner above, and that a
+   to the team site. Then list what they need (above), and that a
    Claude Pro or Max plan is needed (Max recommended; a full review is long).
 2. **Check where they are.** Run `python3 tools/onboarding_check.py --json` and show
    the checklist (format below). Skip steps that already pass.
@@ -59,7 +56,7 @@ with the steps that don't need it.
 **Step 6 of 9: Connect your Google account**
 
 1. A Google sign-in page is opening in your browser.
-2. Choose the Google account the funnel sheet is shared with.
+2. Choose the Google account you use for the work sheet.
 3. ...
 
 Reply **done** when it's finished, or tell me what you see if it looks different.
