@@ -113,11 +113,16 @@ after 7 days. Then they only repeat this one step ("sign me in to Google again")
 # Phase 4: Publishing to Render
 
 ## upload-token
-Needs item 3 from the owner.
+Needs item 3 from the owner. The funnel feedback token is always provided by the owner;
+the teammate never creates it. If they don't have it yet, give them the Owner request.
 **Teammate:**
-> **Step N: Add the upload token**
-> I've opened your `.env` file. Paste the token the owner sent you right after
-> `FEEDBACK_UPLOAD_TOKEN=`, save (**Cmd+S**) and close.
+> **Step N: Add the funnel feedback token**
+> The owner provides this token privately (password manager). It lets your reviews
+> publish to the team site.
+> 1. I've opened your `.env` file in TextEdit.
+> 2. Find the line `FEEDBACK_UPLOAD_TOKEN=`
+> 3. Paste the token right after the `=` (no spaces, no quotes).
+> 4. Save (**Cmd+S**) and close.
 >
 > Reply **done**.
 

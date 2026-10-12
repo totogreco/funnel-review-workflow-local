@@ -13,10 +13,13 @@ review on your own Claude account.
    because a full review is long): https://claude.com/claude-code
 2. Open this folder in Claude Code (in VS Code: **File → Open Folder**, then open Claude Code).
 3. Type: **onboard me**
+4. **Add the funnel feedback token.** The owner provides the `FEEDBACK_UPLOAD_TOKEN`
+   privately. Open the `.env` file in this folder, paste the token right after
+   `FEEDBACK_UPLOAD_TOKEN=`, save and close. (Claude opens the file for you at this step.)
 
 Claude walks you through the setup one step at a time and checks each step. You'll need
 three things from the owner: access to the funnel sheet, the team's Google sign-in client
-and the upload token. Claude tells you exactly what to ask for.
+and the funnel feedback token. Claude tells you exactly what to ask for.
 
 After setup, start a review with: **review funnel NLBE 250** (any FUNNEL ID from the sheet).
 
