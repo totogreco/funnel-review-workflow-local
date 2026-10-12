@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 tools/onboarding_check.py:*)",
+      "Bash(.venv/bin/python tools/resolve_funnel.py:*)",
+      "Bash(.venv/bin/python tools/capture_funnel.py:*)",
+      "Bash(.venv/bin/python tools/prepare_comparison.py:*)",
+      "Bash(.venv/bin/python tools/locate_evidence.py:*)",
+      "Bash(.venv/bin/python tools/annotate_screenshot.py:*)",
+      "Bash(.venv/bin/python tools/generate_feedback_page.py:*)",
+      "Bash(.venv/bin/python tools/publish_feedback_page.py:*)",
+      "Bash(.venv/bin/python tools/google_auth.py --check)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./token.json)",
+      "Read(./credentials.json)"
+    ]
+  }
+}

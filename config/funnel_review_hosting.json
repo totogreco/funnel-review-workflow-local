@@ -1,0 +1,6 @@
+{
+  "provider": "vercel",
+  "scope": "funnel-ds",
+  "project": "funnel-reviews",
+  "base_url": "https://funnel.ecom-machine.com"
+}
